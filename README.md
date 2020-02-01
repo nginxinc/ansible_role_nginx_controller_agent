@@ -1,7 +1,7 @@
-Role Name
+nginx-controller-agent
 =========
 
-nginx-controller-agent
+This Role installs, configures, upgrades the NGINX Controller agent alongside of an NGINX Plus instance in a machine.
 
 Requirements
 ------------
@@ -12,9 +12,16 @@ NGINX Controller [](https://www.nginx.com/products/nginx-controller/)
 Role Variables
 --------------
 
-controller_fqdn
-user_email
-user_password
+Required:
+
+- controller_fqdn
+- controller_auth_token
+- api_key
+
+Optional:
+
+- controller_hostname
+- location
 
 Dependencies
 ------------
@@ -22,18 +29,19 @@ Dependencies
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+- hosts: nginxservers
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+  roles:
+
+  - nginxinc.nginx-controller-generate-token
+  - nginxinc.nginx-controller-agent
 
 License
 -------
 
-BSD
+Apache
 
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+brianehlert
