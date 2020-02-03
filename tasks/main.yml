@@ -1,74 +1,63 @@
 ---
+- name: COPY files/stub_status.conf /etc/nginx/conf.d/ https://www.nginx.com/blog/monitoring-nginx/
+  copy:
+    src: "files/stub_status.conf"
+    dest: "/etc/nginx/conf.d/stub_status.conf"
+    force: yes
 
-- hosts: loadbalancers
-  remote_user: ubuntu
-  become: true
-  become_method: sudo
-  gather_facts: yes
+- name: COPY files/nginx-plus-api.conf /etc/nginx/conf.d/ necessary for process monitoring.
+  copy:
+    src: "files/nginx-plus-api.conf"
+    dest: "/etc/nginx/conf.d/nginx-plus-api.conf"
+    force: yes
 
-  tasks:
-  # https://www.nginx.com/blog/monitoring-nginx/
-  - name: COPY files/stub_status.conf /etc/nginx/conf.d/
-    copy:
-      src: "files/stub_status.conf"
-      dest: "/etc/nginx/conf.d/stub_status.conf"
-      force: yes
+- name: download the installer script from controller
+  get_url:
+    url: "https://{{controller_fqdn}}:8443/1.4/install/controller/"
+    dest: ~/install.sh
+    validate_certs: no
+    force: yes
+  register: controller_return
 
-  # necessary for process monitoring.
-  - name: COPY files/nginx-plus-api.conf /etc/nginx/conf.d/
-    copy:
-      src: "files/nginx-plus-api.conf"
-      dest: "/etc/nginx/conf.d/nginx-plus-api.conf"
-      force: yes
+- name: try to backup agent.conf
+  copy:
+    src: "{{ item }}"
+    dest: /etc/controller-agent/agent.bak
+    force: yes
+    remote_src: yes
+  with_fileglob: /etc/controller-agent/agent.conf
 
-  - name: download the installer script from controller
-    get_url:
-      url: "https://{{controller_fqdn}}:8443/1.4/install/controller/"
-      dest: ~/install.sh
-      validate_certs: no
-      force: yes
-    register: controller_return
+- name: run the Controller Agent installer
+  shell: "API_KEY={{api_key}} sh ./install.sh \
+    {{ (instance_name) | ternary('CONTROLLER_HOSTNAME={{instance_name}}'','') }} \
+    {{ (location) | ternary('-l {{location}}'','') }} \
+    {{ (instance_name) | ternary('-i {{instance_name}}'','') }}"
+  args:
+    chdir: ~
+  register: agent_install
 
+- debug:
+    var: agent_install.stdout_lines
 
-  - name: try to backup agent.conf
-    copy:
-      src: "{{ item }}"
-      dest: /etc/controller-agent/agent.bak
-      force: yes
-      remote_src: yes
-    with_fileglob: /etc/controller-agent/agent.conf
+- name: stop controller registration to preserve agent.conf
+  service:
+    name=controller-agent
+    state=stopped
 
-  - name: run the Controller Agent installer
-    shell: "API_KEY={{api_key}} sh ./install.sh \
-      {{ (instance_name) | ternary('CONTROLLER_HOSTNAME={{instance_name}}'','') }} \
-      {{ (location) | ternary('-l {{location}}'','') }} \
-      {{ (instance_name) | ternary('-i {{instance_name}}'','') }}"
-    args:
-      chdir: ~
-    register: agent_install
+- name: try to restore agent.conf
+  copy:
+    src: "{{ item }}"
+    dest: /etc/controller-agent/agent.json
+    force: yes
+    remote_src: yes
+  with_fileglob: /etc/controller-agent/agent.bak
 
-  - debug:
-      var: agent_install.stdout_lines
+- name: start controller agent
+  service:
+    name=controller-agent
+    state=started
 
-  - name: stop controller registration to preserve agent.conf
-    service:
-      name=controller-agent
-      state=stopped
-
-  - name: try to restore agent.conf
-    copy:
-      src: "{{ item }}"
-      dest: /etc/controller-agent/agent.json
-      force: yes
-      remote_src: yes
-    with_fileglob: /etc/controller-agent/agent.bak
-
-  - name: start controller agent
-    service:
-      name=controller-agent
-      state=started
-
-  - name: restart nginx
-    service:
-      name: nginx
-      state: restarted
+- name: restart nginx
+  service:
+    name: nginx
+    state: restarted
