@@ -36,13 +36,14 @@
     chdir: ~
   register: agent_install
 
-- debug:
+- name: output agent install results
+  debug:
     var: agent_install.stdout_lines
 
 - name: stop controller registration to preserve agent.conf
   service:
-    name=controller-agent
-    state=stopped
+    name: controller-agent
+    state: stopped
 
 - name: try to restore agent.conf
   copy:
@@ -54,8 +55,8 @@
 
 - name: start controller agent
   service:
-    name=controller-agent
-    state=started
+    name: controller-agent
+    state: started
 
 - name: restart nginx
   service:
