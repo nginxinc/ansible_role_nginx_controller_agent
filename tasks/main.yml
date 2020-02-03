@@ -29,18 +29,20 @@
       force: yes
     register: controller_return
 
+
   - name: try to backup agent.conf
     copy:
-      src: 
-      dest: 
+      src: "{{ item }}"
+      dest: /etc/controller-agent/agent.bak
       force: yes
       remote_src: yes
+    with_fileglob: /etc/controller-agent/agent.conf
 
   - name: run the Controller Agent installer
     shell: "API_KEY={{api_key}} sh ./install.sh \
       {{ (instance_name) | ternary('CONTROLLER_HOSTNAME={{instance_name}}'','') }} \
       {{ (location) | ternary('-l {{location}}'','') }} \
-      {{ (instance_name) | ternary('-i {{instance_name}}'','') }}
+      {{ (instance_name) | ternary('-i {{instance_name}}'','') }}"
     args:
       chdir: ~
     register: agent_install
@@ -55,10 +57,11 @@
 
   - name: try to restore agent.conf
     copy:
-      src:
-      dest: 
+      src: "{{ item }}"
+      dest: /etc/controller-agent/agent.json
       force: yes
       remote_src: yes
+    with_fileglob: /etc/controller-agent/agent.bak
 
   - name: start controller agent
     service:
