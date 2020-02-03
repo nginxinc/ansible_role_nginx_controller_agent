@@ -7,37 +7,6 @@
   gather_facts: yes
 
   tasks:
-
-## pull up to playbook example as pre-tasks
-  - name: upgrade packages here.
-    apt: 
-      update_cache: yes
-      upgrade: yes
-
-  - name: install minimal support for python2 for Agent install script
-    apt: 
-      name: "{{ packages }}"
-      state: present
-    vars:
-      packages:
-      - python-minimal
-
-  - name: Get controller api key for agent registration
-    uri:
-      url: "https://{{controller_fqdn}}/api/v1/platform/global"
-      method: "GET"
-      return_content: yes
-      status_code: 200
-      validate_certs: false
-      headers:
-        Cookie: "{{controller_auth_token}}"
-    register: ctrl_globals
-
-  - name: Copy api_key to a variable
-    set_fact:
-      api_key: "{{ctrl_globals.json.currentStatus.agentSettings.apiKey}}"
-## end playbook
-
   # https://www.nginx.com/blog/monitoring-nginx/
   - name: COPY files/stub_status.conf /etc/nginx/conf.d/
     copy:
@@ -68,7 +37,10 @@
       remote_src: yes
 
   - name: run the Controller Agent installer
-    shell: "API_KEY={{api_key}} sh ./install.sh"
+    shell: "API_KEY={{api_key}} sh ./install.sh \
+      {{ (instance_name) | ternary('CONTROLLER_HOSTNAME={{instance_name}}'','') }} \
+      {{ (location) | ternary('-l {{location}}'','') }} \
+      {{ (instance_name) | ternary('-i {{instance_name}}'','') }}
     args:
       chdir: ~
     register: agent_install

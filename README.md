@@ -22,6 +22,7 @@ Optional:
 
 - controller_hostname
 - location
+- instance_name
 
 Dependencies
 ------------
@@ -30,11 +31,48 @@ Example Playbook
 ----------------
 
 - hosts: nginxservers
+  tasks:
+  - name: upgrade packages here.
+    apt:
+      update_cache: yes
+      upgrade: yes
 
-  roles:
+  - name: install minimal support for python2 for Agent install script
+    apt:
+      name: "{{ packages }}"
+      state: present
+    vars:
+      packages:
+      - python-minimal
 
-  - nginxinc.nginx-controller-generate-token
-  - nginxinc.nginx-controller-agent
+  - include_role:
+      name: nginxinc.nginx-controller-generate-token
+    vars:
+      user_email: "user@example.com"
+      user_password: 'secure_password'
+      controller_fqdn: ""
+
+  - name: Get controller api key for agent registration
+    uri:
+      url: "https://{{controller_fqdn}}/api/v1/platform/global"
+      method: "GET"
+      return_content: yes
+      status_code: 200
+      validate_certs: false
+      headers:
+        Cookie: "{{controller_auth_token}}"
+    register: ctrl_globals
+
+  - name: Copy api_key to a variable
+    set_fact:
+      api_key: "{{ctrl_globals.json.currentStatus.agentSettings.apiKey}}"
+
+  - name: install the agent
+    include_role:
+      name: nginxinc.nginx-controller-agent
+    vars:
+      controller_fqdn:
+      api_key:
 
 License
 -------
