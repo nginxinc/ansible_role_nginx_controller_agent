@@ -1,4 +1,11 @@
 ---
+- name: Fail if required variables are not defined
+  assert:
+    that: ("{{ item }} is defined") and ("{{ item }} | length > 0")
+  with_items:
+    - controller_fqdn
+    - api_key
+
 - name: COPY files/stub_status.conf /etc/nginx/conf.d/ https://www.nginx.com/blog/monitoring-nginx/
   copy:
     src: "files/stub_status.conf"

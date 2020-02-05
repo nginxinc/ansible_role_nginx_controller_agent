@@ -15,7 +15,6 @@ Role Variables
 Required:
 
 - controller_fqdn
-- controller_auth_token
 - api_key
 
 Optional:
