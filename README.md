@@ -30,6 +30,11 @@ Example Playbook
 ----------------
 
 - hosts: nginxservers
+  remote_user: ubuntu
+  become: true
+  become_method: sudo
+  gather_facts: yes
+
   tasks:
   - name: upgrade packages here.
     apt:
