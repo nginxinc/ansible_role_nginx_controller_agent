@@ -40,7 +40,7 @@
     API_KEY='{{api_key}}' \
     {{ (instance_name) | ternary('CONTROLLER_HOSTNAME=' + instance_name,'') }} \
     {{ (location) | ternary('-l ' + location,'') }} \
-    {{ (instance_name) | ternary('-i ' + instance_name,'') }}"
+    {{ (instance_name) | ternary('-i ' + instance_name,'') }}
   args:
     chdir: ~
   register: agent_install
