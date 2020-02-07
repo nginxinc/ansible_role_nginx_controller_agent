@@ -35,10 +35,12 @@
   with_fileglob: /etc/controller-agent/agent.conf
 
 - name: run the Controller Agent installer
-  shell: "API_KEY={{api_key}} sh ./install.sh \
-    {{ (instance_name) | ternary('CONTROLLER_HOSTNAME={{instance_name}}'','') }} \
-    {{ (location) | ternary('-l {{location}}'','') }} \
-    {{ (instance_name) | ternary('-i {{instance_name}}'','') }}"
+  shell: |
+    ./install.sh \
+    API_KEY={{api_key}} \
+    {{ (instance_name) | ternary('CONTROLLER_HOSTNAME=' + instance_name','') }} \
+    {{ (location) | ternary('-l ' + location','') }} \
+    {{ (instance_name) | ternary('-i ' + instance_name','') }}"
   args:
     chdir: ~
   register: agent_install
