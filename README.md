@@ -49,6 +49,7 @@ Example Playbook
       packages:
       - python-minimal
 
+  ## Get token Role
   - include_role:
       name: nginxinc.nginx-controller-generate-token
     vars:
@@ -71,6 +72,7 @@ Example Playbook
     set_fact:
       api_key: "{{ctrl_globals.json.currentStatus.agentSettings.apiKey}}"
 
+  ## agent install Role
   - name: install the agent
     include_role:
       name: nginxinc.nginx-controller-agent
