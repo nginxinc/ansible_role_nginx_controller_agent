@@ -1,5 +1,6 @@
 ---
 # defaults file for ansible-role-nginx-controller-agent
 
+controller_hostname: ""
 instance_name: ""
 location: ""
