@@ -35,11 +35,11 @@
 
 - name: run the Controller Agent installer
   shell: |
-    sh ./install.sh \
     API_KEY='{{api_key}}' \
-    {{ (controller_hostname length > 0) | ternary('CONTROLLER_HOSTNAME=' + controller_hostname,'') }} \
-    {{ (location length > 0) | ternary('-l ' + location,'') }} \
-    {{ (instance_name length > 0) | ternary('-i ' + instance_name,'') }}
+    {{ (controller_hostname | length > 0) | ternary('CONTROLLER_HOSTNAME=' + controller_hostname,'') }} \
+    sh ./install.sh \
+    {{ (location | length > 0) | ternary('-l ' + location,'') }} \
+    {{ (instance_name | length > 0) | ternary('-i ' + instance_name,'') }}
   args:
     chdir: ~
   register: agent_install
