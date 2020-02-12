@@ -29,6 +29,7 @@ Dependencies
 Example Playbook
 ----------------
 
+```yaml
 - hosts: nginxservers
   remote_user: ubuntu
   become: true
@@ -49,9 +50,8 @@ Example Playbook
       packages:
       - python-minimal
 
-  ## Get token Role
   - include_role:
-      name: nginxinc.nginx-controller-generate-token
+      name: nginx_controller_generate_token
     vars:
       user_email: "user@example.com"
       user_password: 'secure_password'
@@ -72,13 +72,13 @@ Example Playbook
     set_fact:
       api_key: "{{ctrl_globals.json.currentStatus.agentSettings.apiKey}}"
 
-  ## agent install Role
   - name: install the agent
     include_role:
-      name: nginxinc.nginx-controller-agent
+      name: nginx_controller_agent
     vars:
       controller_fqdn:
       api_key:
+```
 
 License
 -------
