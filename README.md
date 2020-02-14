@@ -1,7 +1,7 @@
-nginx-controller-agent
+NGINX Controller Agent
 =========
 
-This Role installs, configures, upgrades the NGINX Controller agent alongside of an NGINX Plus instance in a machine.
+This Role installs, configures, and upgrades the NGINX Controller agent alongside of an NGINX Plus instance in a machine.
 
 Requirements
 ------------

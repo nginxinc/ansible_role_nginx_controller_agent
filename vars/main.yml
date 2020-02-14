@@ -9,7 +9,7 @@
 ## Optional vars
 # the name of the instance as reflected in Controller.  Must be unique per instnace. 
 # controller_hostname: ""
-# the Location in Controller this instance will be automatically added to.  Otherwise the location will be 'unspecified'
+# the Location in Controller this instance will be automatically added to.  Otherwise the location will be 'unspecified' in Controller
 #location: ""
-# the name of the instance as reflected in Controller.  Must be unique per instnace. 
+# the name of the instance as reflected in Controller.  Must be unique per instance (currently redundant with controller_hostname). 
 #instance_name: ""
