@@ -26,12 +26,18 @@
     force: yes
   register: controller_return
 
+- name: test for existing agent.conf
+  stat:
+    path: /etc/controller-agent/agent.conf
+  register: agent_conf_result
+
 - name: try to backup agent.conf
   copy:
     src: /etc/controller-agent/agent.conf
     dest: /etc/controller-agent/agent.bak
     force: yes
     remote_src: yes
+  when: agent_conf_result == true
 
 - name: run the Controller Agent installer
   shell: |
@@ -59,6 +65,7 @@
     dest: /etc/controller-agent/agent.json
     force: yes
     remote_src: yes
+  when: agent_conf_result == true
 
 - name: start controller agent
   service:
