@@ -43,11 +43,11 @@
   shell: |
     API_KEY='{{api_key}}' \
     {{ (controller_hostname | length > 0) | ternary('CONTROLLER_HOSTNAME=' + controller_hostname,'') }} \
-    sh {{ansible_env.HOME}}/install.sh \
+    sh ./install.sh -y \
     {{ (location | length > 0) | ternary('-l ' + location,'') }} \
     {{ (instance_name | length > 0) | ternary('-i ' + instance_name,'') }}
   args:
-    chdir: ~/
+    chdir: "{{ansible_env.HOME}}"
   register: agent_install
 
 - name: output agent install results
