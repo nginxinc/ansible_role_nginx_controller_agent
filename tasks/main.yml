@@ -21,7 +21,7 @@
 - name: download the installer script from controller
   get_url:
     url: "https://{{controller_fqdn}}:8443/1.4/install/controller/"
-    dest: ~/install.sh
+    dest: "{{ansible_env.HOME}}/install.sh"
     validate_certs: no
     force: yes
   register: controller_return
@@ -43,11 +43,11 @@
   shell: |
     API_KEY='{{api_key}}' \
     {{ (controller_hostname | length > 0) | ternary('CONTROLLER_HOSTNAME=' + controller_hostname,'') }} \
-    sh ./install.sh \
+    sh {{ansible_env.HOME}}/install.sh \
     {{ (location | length > 0) | ternary('-l ' + location,'') }} \
     {{ (instance_name | length > 0) | ternary('-i ' + instance_name,'') }}
   args:
-    chdir: ~
+    chdir: ~/
   register: agent_install
 
 - name: output agent install results
