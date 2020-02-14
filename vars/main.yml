@@ -2,9 +2,9 @@
 # vars file for ansible-role-nginx-controller-agent
 ## Required Vars
 # the api key used to authenticate to Controller
-api_key: ""
+# api_key: ""
 # the FQDN of the controller server.  ex: 10.20.30.40 or controller.example.com
-controller_fqdn: ""
+# controller_fqdn: ""
 
 ## Optional vars
 # the name of the instance as reflected in Controller.  Must be unique per instnace. 
