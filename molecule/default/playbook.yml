@@ -1,0 +1,13 @@
+---
+- name: Converge
+  hosts: all
+
+  vars:
+  #   controller_fqdn: ""
+  #   api_key: ""
+  #   user_email: ""
+  #   user_password: ""
+
+  tasks:
+    - include_role:
+        name: ansible-role-nginx-controller-agent
