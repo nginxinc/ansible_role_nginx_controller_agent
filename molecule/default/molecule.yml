@@ -1,0 +1,30 @@
+---
+dependency:
+  name: galaxy
+  options:
+    ignore-certs: true
+    ignore-errors: true
+    role-file: requirements.yml
+driver:
+  name: docker
+lint:
+  name: yamllint
+platforms:
+  - name: debian-stretch
+    image: debian:stretch-slim
+    dockerfile: Dockerfile.j2
+  - name: debian-buster
+    image: debian:buster-slim
+    dockerfile: Dockerfile.j2
+  - name: ubuntu-xenial
+    image: ubuntu:xenial
+    dockerfile: Dockerfile.j2
+  - name: ubuntu-bionic
+    image: ubuntu:bionic
+    dockerfile: Dockerfile.j2
+provisioner:
+  name: ansible
+  playbooks:
+    converge: playbook.yml
+  lint:
+    name: ansible-lint

@@ -2,15 +2,9 @@
 - name: Fail if required variables are not defined
   assert:
     that: ("{{ item }} is defined") and ("{{ item }} | length > 0")
-  with_items:
+  loop:
     - controller_fqdn
     - api_key
-
-- name: COPY files/stub_status.conf /etc/nginx/conf.d/ https://www.nginx.com/blog/monitoring-nginx/
-  copy:
-    src: "files/stub_status.conf"
-    dest: "/etc/nginx/conf.d/stub_status.conf"
-    force: yes
 
 - name: COPY files/nginx-plus-api.conf /etc/nginx/conf.d/ necessary for process monitoring.
   copy:
@@ -18,61 +12,62 @@
     dest: "/etc/nginx/conf.d/nginx-plus-api.conf"
     force: yes
 
-- name: download the installer script from controller
+- name: Download the installer script from NGINX Controller
   get_url:
-    url: "https://{{controller_fqdn}}:8443/1.4/install/controller/"
-    dest: "{{ansible_env.HOME}}/install.sh"
+    url: "https://{{ controller_fqdn }}:8443/1.4/install/controller/"
+    dest: "{{ ansible_env.HOME }}/install.sh"
     validate_certs: no
     force: yes
   register: controller_return
 
-- name: test for existing agent.conf
+- name: Test for existing agent.conf
   stat:
     path: /etc/controller-agent/agent.conf
   register: agent_conf_result
 
-- name: try to backup agent.conf
+- name: Try to backup agent.conf
   copy:
     src: /etc/controller-agent/agent.conf
     dest: /etc/controller-agent/agent.bak
     force: yes
     remote_src: yes
-  when: agent_conf_result == true
+  when: agent_conf_result
 
-- name: run the Controller Agent installer
+- name: Run the NGINX Controller agent installer
   shell: |
-    API_KEY='{{api_key}}' \
+    API_KEY='{{ api_key }}' \
     {{ (controller_hostname | length > 0) | ternary('CONTROLLER_HOSTNAME=' + controller_hostname,'') }} \
     sh ./install.sh -y \
     {{ (location | length > 0) | ternary('-l ' + location,'') }} \
     {{ (instance_name | length > 0) | ternary('-i ' + instance_name,'') }}
   args:
-    chdir: "{{ansible_env.HOME}}"
+    chdir: "{{ ansible_env.HOME }}"
+    creates: /var/log/nginx-controller/agent.log
   register: agent_install
 
-- name: output agent install results
+- name: Output agent install results
   debug:
     var: agent_install.stdout_lines
 
-- name: stop controller registration to preserve agent.conf
+- name: Stop controller registration to preserve agent.conf
   service:
     name: controller-agent
     state: stopped
 
-- name: try to restore agent.conf
+- name: Try to restore agent.conf
   copy:
     src: /etc/controller-agent/agent.bak
     dest: /etc/controller-agent/agent.json
     force: yes
     remote_src: yes
-  when: agent_conf_result == true
+  when: agent_conf_result
 
-- name: start controller agent
+- name: Start NGINX Controller agent
   service:
     name: controller-agent
     state: started
 
-- name: restart nginx
+- name: Restart NGINX
   service:
     name: nginx
     state: restarted
