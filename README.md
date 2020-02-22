@@ -49,6 +49,7 @@ Example Playbook
         state: present
       loop:
         - python-minimal
+        - libxerces-c3.2
 
     - name: Generate auth token for NGINX Controller
       include_role:
