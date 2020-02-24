@@ -1,5 +1,5 @@
 ---
-# these need to be defined to allow the ternary test to execute.
+# These need to be defined to allow the ternary test to execute.
 controller_hostname: ""
 location: ""
 instance_name: ""

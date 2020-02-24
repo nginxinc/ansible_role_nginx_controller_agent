@@ -14,14 +14,16 @@ Role Variables
 
 ### Required Variables
 
+`controller_fqdn` - FQDN of the NGINX Controller instance
 
-`controller_fqdn` - The FQDN of the NGINX Controller server. ex: 10.20.30.40 or controller.example.com
-`api_key` - The API key used to authenticate to NGINX Controller
+`api_key` - The API key used to authenticate to NGINX Controller.
 
 ### Optional Variables
 
 `controller_hostname` - The name of the instance as reflected in NGINX Controller. Must be unique per instance.
+
 `location` - The location in NGINX Controller this instance will be automatically added to. Otherwise the location will be 'unspecified' in NGINX Controller.
+
 `instance_name` - The name of the instance as reflected in Controller. Must be unique per instance (currently redundant with controller_hostname).
 
 Dependencies
@@ -30,11 +32,10 @@ Dependencies
 Example Playbook
 ----------------
 
+To use this role you can create a playbook such as the following:
+
 ```yaml
-- hosts: nginxservers
-  remote_user: ubuntu
-  become: true
-  become_method: sudo
+- hosts: localhost
   gather_facts: yes
 
   tasks:
@@ -51,9 +52,9 @@ Example Playbook
         - python-minimal
         - libxerces-c3.2
 
-    - name: Generate auth token for NGINX Controller
+    - name: Retrieve the NGINX Controller auth token
       include_role:
-        name: nginx_controller_generate_token
+        name: nginxinc.nginx-controller-generate-token
       vars:
         user_email: "user@example.com"
         user_password: "mySecurePassword"
@@ -76,7 +77,7 @@ Example Playbook
 
     - name: Install the NGINX Controller agent
       include_role:
-        name: nginx_controller_agent
+        name: nginxinc.nginx-controller-agent
       vars:
         api_key: "{{ api_key }}"
         controller_fqdn: "controller.mydomain.com"
@@ -90,4 +91,8 @@ License
 Author Information
 ------------------
 
-brianehlert
+[Brian Ehlert](https://github.com/brianehlert)
+
+[Alessandro Fael Garcia](https://github.com/alessfg)
+
+&copy; [NGINX, Inc.](https://www.nginx.com/) 2020

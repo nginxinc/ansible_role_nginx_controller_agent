@@ -1,17 +1,11 @@
 ---
-## Required Vars
-# The FQDN of the NGINX Controller server. ex: 10.20.30.40 or controller.example.com
-# controller_fqdn: ""
-# The API key used to authenticate to NGINX Controller
-# api_key: ""
+## All the below variables are REQUIRED
 
-## Optional Vars
-# The name of the instance as reflected in NGINX Controller.
-# Must be unique per instance.
-# controller_hostname: ""
-# The location in NGINX Controller this instance will be automatically added to.
-# Otherwise the location will be 'unspecified' in NGINX Controller.
-# location: ""
-# The name of the instance as reflected in Controller.
-# Must be unique per instance (currently redundant with controller_hostname).
-# instance_name: ""
+# controller_fqdn:  # FQDN of the NGINX Controller instance
+# api_key: ""  # The API key used to authenticate to NGINX Controller
+
+## All the below variables are OPTIONAL
+
+# controller_hostname: ""  # The name of the instance as reflected in NGINX Controller. Must be unique.
+# location:  # The location in NGINX Controller this instance will be automatically added to. Otherwise the location will be 'unspecified'.
+# instance_name:  # The name of the instance as reflected in Controller. Must be unique (redundant with controller_hostname).

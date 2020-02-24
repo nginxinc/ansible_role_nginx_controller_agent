@@ -1,2 +1,2 @@
 ---
-- src: https://github.com/nginxinc/ansible_role_nginx_controller_generate_token
+- src: https://github.com/nginxinc/ansible-role-nginx-controller-generate-token
