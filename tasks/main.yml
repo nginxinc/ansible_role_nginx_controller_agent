@@ -31,7 +31,7 @@
     dest: /etc/controller-agent/agent.bak
     force: yes
     remote_src: yes
-  when: agent_conf_result
+  when: agent_conf_result.stat.exists == True
 
 - name: Run the NGINX Controller agent installer
   shell: |
@@ -60,7 +60,7 @@
     dest: /etc/controller-agent/agent.json
     force: yes
     remote_src: yes
-  when: agent_conf_result
+  when: agent_conf_result.stat.exists == True
 
 - name: Start NGINX Controller agent
   service:
