@@ -3,10 +3,12 @@
   hosts: all
 
   vars:
-  #   controller_fqdn: ""
-  #   api_key: ""
-  #   user_email: ""
-  #   user_password: ""
+    # controller:
+    #   user_email: "user@example.com"
+    #   user_password: "mySecurePassword"
+    #   fqdn: "controller.mydomain.com"
+    #   validate_certs: false
+    #   api_key: ""
 
   tasks:
     - include_role:

@@ -14,13 +14,13 @@ Role Variables
 
 ### Required Variables
 
-`controller_fqdn` - FQDN of the NGINX Controller instance
+`controller.fqdn` - FQDN of the NGINX Controller instance
 
 `api_key` - The API key used to authenticate to NGINX Controller.
 
 ### Optional Variables
 
-`controller_hostname` - The name of the instance as reflected in NGINX Controller. Must be unique per instance.
+`controller_hostname` - The name of the NGINX instance as reflected in NGINX Controller. Must be unique per instance.
 
 `location` - The location in NGINX Controller this instance will be automatically added to. Otherwise the location will be 'unspecified' in NGINX Controller.
 
@@ -37,6 +37,12 @@ To use this role you can create a playbook such as the following:
 ```yaml
 - hosts: localhost
   gather_facts: yes
+  vars:
+    controller:
+      user_email: "user@example.com"
+      user_password: "mySecurePassword"
+      fqdn: "controller.mydomain.com"
+      validate_certs: false
 
   tasks:
     - name: Upgrade your packages
@@ -55,20 +61,16 @@ To use this role you can create a playbook such as the following:
     - name: Retrieve the NGINX Controller auth token
       include_role:
         name: nginxinc.nginx-controller-generate-token
-      vars:
-        user_email: "user@example.com"
-        user_password: "mySecurePassword"
-        controller_fqdn: "controller.mydomain.com"
 
     - name: Get NGINX Controller API key for agent registration
       uri:
-        url: "https://{{ controller_fqdn }}/api/v1/platform/global"
+        url: "https://{{ controller.fqdn }}/api/v1/platform/global"
         method: "GET"
         return_content: yes
         status_code: 200
-        validate_certs: false
+        validate_certs: "{{ controller.validate_certs | default(false) }}"
         headers:
-          Cookie: "{{ controller_auth_token }}"
+          Cookie: "{{ controller.auth_token }}"
       register: ctrl_globals
 
     - name: Copy api_key to a variable
@@ -80,7 +82,6 @@ To use this role you can create a playbook such as the following:
         name: nginxinc.nginx-controller-agent
       vars:
         api_key: "{{ api_key }}"
-        controller_fqdn: "controller.mydomain.com"
 ```
 
 License
@@ -94,5 +95,7 @@ Author Information
 [Brian Ehlert](https://github.com/brianehlert)
 
 [Alessandro Fael Garcia](https://github.com/alessfg)
+
+[Daniel Edgar](https://github.com/aknot242)
 
 &copy; [NGINX, Inc.](https://www.nginx.com/) 2020
