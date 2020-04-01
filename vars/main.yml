@@ -1,7 +1,7 @@
 ---
 ## All the below variables are REQUIRED
 
-# controller_fqdn:  # FQDN of the NGINX Controller instance
+# controller.fqdn:  # FQDN of the NGINX Controller instance
 # api_key: ""  # The API key used to authenticate to NGINX Controller
 
 ## All the below variables are OPTIONAL
