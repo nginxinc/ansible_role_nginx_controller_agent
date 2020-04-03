@@ -57,7 +57,7 @@
 - name: Try to restore agent.conf
   copy:
     src: /etc/controller-agent/agent.bak
-    dest: /etc/controller-agent/agent.json
+    dest: /etc/controller-agent/agent.conf
     force: yes
     remote_src: yes
   when: agent_conf_result.stat.exists | bool
@@ -71,3 +71,8 @@
   service:
     name: nginx
     state: restarted
+
+- name: remove the install script
+  file:
+    path: "{{ ansible_env.HOME }}/install.sh"
+  state: absent
