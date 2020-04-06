@@ -20,19 +20,6 @@
     force: yes
   register: controller_return
 
-- name: Test for existing agent.conf
-  stat:
-    path: /etc/controller-agent/agent.conf
-  register: agent_conf_result
-
-- name: Try to backup agent.conf
-  copy:
-    src: /etc/controller-agent/agent.conf
-    dest: /etc/controller-agent/agent.bak
-    force: yes
-    remote_src: yes
-  when: agent_conf_result.stat.exists | bool
-
 - name: Run the NGINX Controller agent installer
   shell: |
     API_KEY='{{ api_key }}' \
@@ -49,24 +36,6 @@
 - name: Output agent install results
   debug:
     var: agent_install.stdout_lines
-
-- name: Stop controller registration to preserve agent.conf
-  service:
-    name: controller-agent
-    state: stopped
-
-- name: Try to restore agent.conf
-  copy:
-    src: /etc/controller-agent/agent.bak
-    dest: /etc/controller-agent/agent.conf
-    force: yes
-    remote_src: yes
-  when: agent_conf_result.stat.exists | bool
-
-- name: Start NGINX Controller agent
-  service:
-    name: controller-agent
-    state: started
 
 - name: Restart NGINX
   service:
