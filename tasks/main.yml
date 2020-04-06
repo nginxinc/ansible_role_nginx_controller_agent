@@ -75,4 +75,4 @@
 - name: remove the install script
   file:
     path: "{{ ansible_env.HOME }}/install.sh"
-  state: absent
+    state: absent
