@@ -3,7 +3,7 @@
   assert:
     that: ("{{ item }} is defined") and ("{{ item }} | length > 0")
   loop:
-    - controller_fqdn
+    - controller.fqdn
     - api_key
 
 - name: COPY files/nginx-plus-api.conf /etc/nginx/conf.d/ necessary for process monitoring.
@@ -14,9 +14,9 @@
 
 - name: Download the installer script from NGINX Controller
   get_url:
-    url: "https://{{ controller_fqdn }}:8443/1.4/install/controller/"
+    url: "https://{{ controller.fqdn }}:8443/1.4/install/controller/"
     dest: "{{ ansible_env.HOME }}/install.sh"
-    validate_certs: no
+    validate_certs: "{{ controller.validate_certs | default(false) }}"
     force: yes
   register: controller_return
 

@@ -3,3 +3,9 @@
 controller_hostname: ""
 location: ""
 instance_name: ""
+
+## The following defaults exist to ensure no breakage of existing implementations that utilize this role. Do not remove.
+controller:
+  user_email: "user@example.com"
+  user_password: "mySecurePassword"
+  fqdn: "{{ controller_fqdn }}"
