@@ -46,3 +46,6 @@
   file:
     path: "{{ ansible_env.HOME }}/install.sh"
     state: absent
+
+- name: return the NGINX Controller instance reference
+  
