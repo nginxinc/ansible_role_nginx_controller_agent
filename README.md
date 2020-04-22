@@ -60,7 +60,7 @@ To use this role you can create a playbook such as the following:
 
     - name: Retrieve the NGINX Controller auth token
       include_role:
-        name: nginxinc.nginx-controller-generate-token
+        name: nginxinc.nginx_controller_generate_token
 
     - name: Get NGINX Controller API key for agent registration
       uri:
@@ -79,9 +79,16 @@ To use this role you can create a playbook such as the following:
 
     - name: Install the NGINX Controller agent
       include_role:
-        name: nginxinc.nginx-controller-agent
+        name: nginxinc.nginx_controller_agent
       vars:
         api_key: "{{ api_key }}"
+```
+
+Use
+---
+
+```cli
+ansible-playbook nginx_controller_agent.yaml -b -i hosts -e "user_email=controller-admin@nginx.com user_password=password controller_fqdn=controller.acme.com"
 ```
 
 License
