@@ -1,11 +1,7 @@
 ---
-# These need to be defined to allow the ternary test to execute.
-controller_hostname: ""
-location: ""
-instance_name: ""
 
-## The following defaults exist to ensure no breakage of existing implementations that utilize this role. Do not remove.
-controller:
-  user_email: "user@example.com"
-  user_password: "mySecurePassword"
-  fqdn: "{{ controller_fqdn }}"
+
+# These need to be defined to allow the ternary test to evaluate.
+nginx_controller_hostname: ""
+nginx_controller_location: ""
+nginx_controller_instance_name: ""

@@ -3,8 +3,8 @@
   assert:
     that: ("{{ item }} is defined") and ("{{ item }} | length > 0")
   loop:
-    - controller.fqdn
-    - api_key
+    - nginx_controller_fqdn
+    - nginx_controller_api_key
 
 - name: COPY files/nginx-plus-api.conf /etc/nginx/conf.d/ necessary for process monitoring.
   copy:
@@ -14,15 +14,15 @@
 
 - name: Download the installer script from NGINX Controller
   get_url:
-    url: "https://{{ controller.fqdn }}:8443/1.4/install/controller/"
+    url: "https://{{ nginx_controller_fqdn }}:8443/1.4/install/controller/"
     dest: "{{ ansible_env.HOME }}/install.sh"
-    validate_certs: "{{ controller.validate_certs | default(false) }}"
+    validate_certs: "{{ nginx_controller_validate_certs | default(false) }}"
     force: yes
-  register: controller_return
+  register: nginx_controller_return
 
 - name: Run the NGINX Controller agent installer
   shell: |
-    API_KEY='{{ api_key }}' \
+    API_KEY='{{ nginx_controller_api_key }}' \
     {{ (controller_hostname | length > 0) | ternary('CONTROLLER_HOSTNAME=' + controller_hostname,'') }} \
     {{ (controller_hostname | length > 0) | ternary('STORE_UUID=True','') }} \
     sh ./install.sh -y \
@@ -31,11 +31,11 @@
   args:
     chdir: "{{ ansible_env.HOME }}"
     creates: /var/log/nginx-controller/agent.log
-  register: agent_install
+  register: nginx_controller_agent_install
 
 - name: Output agent install results
   debug:
-    var: agent_install.stdout_lines
+    var: nginx_controller_agent_install.stdout_lines
 
 - name: Restart NGINX
   service:
