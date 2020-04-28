@@ -3,6 +3,7 @@ galaxy_info:
   author: Brian Ehlert
   description: A role to install, configure, and upgrade the NGINX Controller agent alongside an NGINX Plus instance in a machine.
   company: F5 Networks, Inc.
+  role_name: nginx_controller_agent
 
   license: Apache License, Version 2.0
 
