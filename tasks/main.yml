@@ -26,8 +26,8 @@
     {{ (nginx_controller_hostname | length > 0) | ternary('CONTROLLER_HOSTNAME=' + nginx_controller_hostname,'') }} \
     {{ (nginx_controller_hostname | length > 0) | ternary('STORE_UUID=True','') }} \
     sh ./install.sh -y \
-    {{ (location | length > 0) | ternary('-l ' + location,'') }} \
-    {{ (instance_name | length > 0) | ternary('-i ' + instance_name,'') }}
+    {{ (nginx_controller_location | length > 0) | ternary('-l ' + nginx_controller_location,'') }} \
+    {{ (nginx_controller_instance_name | length > 0) | ternary('-i ' + nginx_controller_instance_name,'') }}
   args:
     chdir: "{{ ansible_env.HOME }}"
     creates: /var/log/nginx-controller/agent.log
