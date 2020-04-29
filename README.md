@@ -83,12 +83,11 @@ To use this role you can create a playbook such as the following:
         nginx_controller_api_key: "{{ nginx_controller_api_key }}"
 ```
 
-Use
----
+You can then run `ansible-playbook nginx_controller_agent.yaml` to execute the playbook.
 
-```cli
-ansible-playbook nginx_controller_agent.yaml -b -i hosts -e "nginx_controller_user_email=controller-admin@nginx.com nginx_controller_user_password=password nginx_controller_fqdn=controller.acme.com"
-```
+Alternatively, you can also pass/override any variables at run time using the `--extra-vars` or `-e` flag like so `ansible-playbook nginx_controller_agent.yaml -e "nginx_controller_user_email=user@company.com nginx_controller_user_password=notsecure nginx_controller_fqdn=controller.example.local nginx_controller_validate_certs=false"`
+
+You can also pass/override any variables by passing a `yaml` file containing any number of variables like so `ansible-playbook nginx_controller_agent.yaml -e "@nginx_controller_agent_vars.yaml"`
 
 License
 -------
