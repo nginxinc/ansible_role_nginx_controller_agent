@@ -35,8 +35,11 @@ Example Playbook
 To use this role you can create a playbook such as the following:
 
 ```yaml
+---
 - hosts: localhost
-  gather_facts: yes
+  gather_facts: false
+  connection: local
+
   vars:
     nginx_controller_user_email: "user@example.com"
     nginx_controller_user_password: "mySecurePassword"
@@ -44,43 +47,47 @@ To use this role you can create a playbook such as the following:
     nginx_controller_validate_certs: false
 
   tasks:
-    - name: Upgrade your packages
-      apt:
-        update_cache: yes
-        upgrade: yes
+  - include_role:
+      name: nginxinc.nginx_controller_generate_token
 
-    - name: Install minimal support for python2 for the NGINX Controller agent install script
-      apt:
-        name: "{{ item }}"
-        state: present
-      loop:
-        - python-minimal
-        - libxerces-c3.2
+  - name: Get controller api key for agent registration
+    uri:
+      url: "https://{{nginx_controller_fqdn}}/api/v1/platform/global"
+      method: "GET"
+      return_content: yes
+      status_code: 200
+      validate_certs: false
+      headers:
+        Cookie: "{{nginx_controller_auth_token}}"
+    register: nginx_controller_globals
 
-    - name: Retrieve the NGINX Controller auth token
-      include_role:
-        name: nginxinc.nginx_controller_generate_token
+  - name: Copy api_key to a variable
+    set_fact:
+      nginx_controller_api_key: "{{nginx_controller_globals.json.currentStatus.agentSettings.apiKey}}"
 
-    - name: Get NGINX Controller API key for agent registration
-      uri:
-        url: "https://{{ nginx_controller_fqdn }}/api/v1/platform/global"
-        method: "GET"
-        return_content: yes
-        status_code: 200
-        validate_certs: "{{ nginx_controller_validate_certs | default(false) }}"
-        headers:
-          Cookie: "{{ nginx_controller_auth_token }}"
-      register: nginx_controller_globals
+- hosts: loadbalancers
+  remote_user: ubuntu
+  become: true
+  become_method: sudo
+  gather_facts: yes
 
-    - name: Copy api_key to a variable
-      set_fact:
-        nginx_controller_api_key: "{{ nginx_controller_globals.json.currentStatus.agentSettings.apiKey }}"
+  tasks:
+  - name: install minimal support for python2 for Agent install script
+    apt:
+      name: "{{ packages }}"
+      state: present
+    vars:
+      packages:
+      - python-minimal
+      - libxerces-c3.2
 
-    - name: Install the NGINX Controller agent
-      include_role:
-        name: nginxinc.nginx_controller_agent
-      vars:
-        nginx_controller_api_key: "{{ nginx_controller_api_key }}"
+  - name: install the agent
+    include_role:
+      name: nginxinc.nginx_controller_agent
+    vars:
+      nginx_controller_hostname: "{{ ansible_facts['fqdn'] }}"
+      # instance_name: "{{ ansible_facts['fqdn'] }}"
+      # location: 
 ```
 
 You can then run `ansible-playbook nginx_controller_agent.yaml` to execute the playbook.
