@@ -48,24 +48,24 @@ To use this role you can create a playbook such as the following:
 
   tasks:
   - include_role:
-      name: nginxinc.nginx_controller_generate_token
+      name: nginxinc.nginx_controller.nginx_controller_generate_token
 
   - name: Get controller api key for agent registration
     uri:
-      url: "https://{{nginx_controller_fqdn}}/api/v1/platform/global"
+      url: "https://{{ nginx_controller_fqdn }}/api/v1/platform/global"
       method: "GET"
       return_content: yes
       status_code: 200
       validate_certs: false
       headers:
         Cookie: "{{nginx_controller_auth_token}}"
-    register: nginx_controller_globals
+    register: ctrl_globals
 
   - name: Copy api_key to a variable
     set_fact:
-      nginx_controller_api_key: "{{nginx_controller_globals.json.currentStatus.agentSettings.apiKey}}"
+      api_key: "{{ctrl_globals.json.currentStatus.agentSettings.apiKey}}"
 
-- hosts: loadbalancers
+- hosts: tag_new_gateway
   remote_user: ubuntu
   become: true
   become_method: sudo
@@ -83,11 +83,9 @@ To use this role you can create a playbook such as the following:
 
   - name: install the agent
     include_role:
-      name: nginxinc.nginx_controller_agent
+      name: nginxinc.nginx_controller.nginx_controller_agent
     vars:
-      nginx_controller_hostname: "{{ ansible_facts['fqdn'] }}"
-      # instance_name: "{{ ansible_facts['fqdn'] }}"
-      # location: 
+      nginx_controller_api_key: "{{ hostvars['localhost']['api_key'] }}"
 ```
 
 You can then run `ansible-playbook nginx_controller_agent.yaml` to execute the playbook.
