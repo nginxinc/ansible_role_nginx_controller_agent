@@ -24,7 +24,7 @@
   shell: |
     API_KEY='{{ nginx_controller_api_key }}' \
     {{ (nginx_controller_hostname | length > 0) | ternary('CONTROLLER_HOSTNAME=' + nginx_controller_hostname,'') }} \
-    {{ (nginx_controller_hostname | length > 0) | ternary('STORE_UUID=True','') }} \
+    {{ (nginx_controller_hostname | length > 0) or (nginx_controller_instance_name | length > 0) | ternary('STORE_UUID=True','') }} \
     sh ./install.sh -y \
     {{ (nginx_controller_location | length > 0) | ternary('-l ' + nginx_controller_location,'') }} \
     {{ (nginx_controller_instance_name | length > 0) | ternary('-i ' + nginx_controller_instance_name,'') }}
@@ -37,10 +37,10 @@
   debug:
     var: nginx_controller_agent_install.stdout_lines
 
-- name: Restart NGINX
-  service:
-    name: nginx
-    state: restarted
+# - name: Restart NGINX
+#   service:
+#     name: nginx
+#     state: restarted
 
 - name: remove the install script
   file:
