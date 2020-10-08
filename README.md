@@ -66,7 +66,7 @@ To use this role you can create a playbook such as the following:
       api_key: "{{ctrl_globals.json.currentStatus.agentSettings.apiKey}}"
       nginx_controller_fqdn: "{{ nginx_controller_fqdn }}"
 
-- hosts: wafs
+- hosts: tag_new_gateway
   remote_user: ubuntu
   become: true
   become_method: sudo
@@ -81,6 +81,7 @@ To use this role you can create a playbook such as the following:
       packages:
       - python-minimal
       - libxerces-c3.2
+      
   - name: install the agent
     include_role:
       name: nginxinc.nginx_controller.nginx_controller_agent
