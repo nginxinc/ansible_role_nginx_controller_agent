@@ -81,7 +81,7 @@ To use this role you can create a playbook such as the following:
       packages:
       - python-minimal
       - libxerces-c3.2
-      
+
   - name: install the agent
     include_role:
       name: nginxinc.nginx_controller.nginx_controller_agent
