@@ -1,0 +1,32 @@
+---
+- name: Verify Mock
+  hosts: mock_server
+  connection: local
+  tasks:
+    - name: Check that the agent script request was sent to the mock controller exactly twice per docker instance (includes the idempotence test)
+      uri:
+        url: "https://{{ inventory_hostname }}:1080/mockserver/verify"
+        method: PUT
+        body:
+          httpRequest:
+            path: "/install/controller-agent"
+          times:
+            atLeast: 2
+            atMost: 2
+        status_code: 202
+        body_format: json
+        headers:
+          Content-Type: application/json
+        validate_certs: false
+
+- name: Verify File
+  hosts: instances
+  tasks:
+    - name: store the statistics of /etc/nginx/conf.d/nginx-plus-api.conf in the 'out' variable
+      stat:
+        path: /etc/nginx/conf.d/nginx-plus-api.conf
+      register: out
+
+    - name: Ensure /etc/nginx/conf.d/nginx-plus-api.conf exists
+      assert:
+        that: out.stat.exists == true

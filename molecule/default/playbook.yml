@@ -1,15 +1,12 @@
 ---
 - name: Converge
-  hosts: all
+  hosts: instances
 
   vars:
-    # controller:
-    #   user_email: "user@example.com"
-    #   user_password: "mySecurePassword"
-    #   fqdn: "controller.mydomain.com"
-    #   validate_certs: false
-    #   api_key: ""
+    nginx_controller_fqdn: "controller.mydomain.com"
+    nginx_controller_api_key: "ABC123"
 
   tasks:
-    - include_role:
+    - name: Call agent install role
+      include_role:
         name: ansible-role-nginx-controller-agent

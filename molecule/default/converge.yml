@@ -1,0 +1,11 @@
+---
+- name: Converge
+  hosts: instances
+  tasks:
+    - name: Call Agent Role
+      include_role:
+        name: ansible-role-nginx-controller-agent
+      vars:
+        nginx_controller_fqdn: mock-server.molecule-test:1080
+        nginx_controller_validate_certs: false
+        nginx_controller_api_key: "ABC123"
