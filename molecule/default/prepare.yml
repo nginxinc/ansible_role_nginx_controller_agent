@@ -41,7 +41,7 @@
             path: "/install/controller-agent"
           httpResponse:
             statusCode: 200
-            body: "echo 'hello'"
+            body: "mkdir /var/log/nginx-controller && touch /var/log/nginx-controller/agent.log"
 
         status_code: 201
         body_format: json

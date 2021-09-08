@@ -22,11 +22,20 @@
 - name: Verify File
   hosts: instances
   tasks:
-    - name: store the statistics of /etc/nginx/conf.d/nginx-plus-api.conf in the 'out' variable
+    - name: Store the statistics of /etc/nginx/conf.d/nginx-plus-api.conf in the 'conf_file' variable
       stat:
         path: /etc/nginx/conf.d/nginx-plus-api.conf
-      register: out
+      register: conf_file
 
     - name: Ensure /etc/nginx/conf.d/nginx-plus-api.conf exists
       assert:
-        that: out.stat.exists == true
+        that: conf_file.stat.exists == true
+
+    - name: Store the statistics of /var/log/nginx-controller/agent.log in the 'agent_log_file' variable
+      stat:
+        path: /var/log/nginx-controller/agent.log
+      register: agent_log_file
+
+    - name: Ensure /var/log/nginx-controller/agent.log exists
+      assert:
+        that: agent_log_file.stat.exists == true
