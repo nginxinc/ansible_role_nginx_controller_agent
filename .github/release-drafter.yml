@@ -80,9 +80,9 @@ autolabeler:
     files:
       - ".github/workflows/requirements/*"
 template: |
-  👾 *Help make the NGINX config Ansible role better by participating in our [survey](https://forms.office.com/Pages/ResponsePage.aspx?id=L_093Ttq0UCb4L-DJ9gcUKLQ7uTJaE1PitM_37KR881UM0NCWkY5UlE5MUYyWU1aTUcxV0NRUllJSC4u)!* 👾
+  👾 *Help make the NGINX Controller Agent Ansible role better by participating in our [survey](https://forms.office.com/Pages/ResponsePage.aspx?id=L_093Ttq0UCb4L-DJ9gcUKLQ7uTJaE1PitM_37KR881UM0NCWkY5UlE5MUYyWU1aTUcxV0NRUllJSC4u)!* 👾
 
-  ## What's new in NGINX's config Ansible role $RESOLVED_VERSION!
+  ## What's new in NGINX's Controller Agent Ansible role $RESOLVED_VERSION!
 
   $CHANGES
 
@@ -94,6 +94,6 @@ template: |
 
   ## Resources
 
-  *   Functional configuration examples (check `converge.yml` under each `molecule` scenario) -- [github.com/nginxinc/ansible-role-nginx-config/tree/$RESOLVED_VERSION/molecule](https://github.com/nginxinc/ansible-role-nginx-config/tree/$RESOLVED_VERSION/molecule).
+  *   Functional configuration examples (check `converge.yml` under each `molecule` scenario) -- [github.com/nginxinc/ansible-role-nginx-controller-agent/tree/$RESOLVED_VERSION/molecule](https://github.com/nginxinc/ansible-role-nginx-controller-agent/tree/$RESOLVED_VERSION/molecule).
   *   Ansible Galaxy repository -- [galaxy.ansible.com/nginxinc/nginx](https://galaxy.ansible.com/nginxinc/nginx_controller_agent).
   *   NGINX: Better with Ansible demo -- [github.com/alessfg/nginx-ansible-demo](https://github.com/alessfg/nginx-ansible-demo).
