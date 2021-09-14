@@ -108,4 +108,4 @@ Author Information
 
 [Daniel Edgar](https://github.com/aknot242)
 
-&copy; [NGINX, Inc.](https://www.nginx.com/) 2020
+&copy; [NGINX, Inc.](https://www.nginx.com/) 2021

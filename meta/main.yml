@@ -4,6 +4,7 @@ galaxy_info:
   description: A role to install, configure, and upgrade the NGINX Controller agent alongside an NGINX Plus instance in a machine.
   company: F5 Networks, Inc.
   role_name: nginx_controller_agent
+  namespace: nginxinc
 
   license: Apache License, Version 2.0
 
@@ -28,6 +29,7 @@ galaxy_info:
       versions:
         - xenial
         - bionic
+        - focal
 
   galaxy_tags:
     - nginx
