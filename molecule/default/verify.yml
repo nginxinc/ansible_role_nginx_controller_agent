@@ -9,7 +9,7 @@
         method: PUT
         body:
           httpRequest:
-            path: "/install/controller-agent"
+            path: /install/controller-agent
           times:
             atLeast: 2
             atMost: 2

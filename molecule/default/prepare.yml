@@ -4,10 +4,10 @@
   gather_facts: false
   tasks:
     - name: Create the conf.d directory
-      ansible.builtin.file:
+      file:
         path: /etc/nginx/conf.d/
         state: directory
-        mode: "0644"
+        mode: 0644
 
 - name: Prepare Mock Server
   hosts: mock_server
@@ -37,11 +37,11 @@
         method: PUT
         body:
           httpRequest:
-            method: "GET"
-            path: "/install/controller-agent"
+            method: GET
+            path: /install/controller-agent
           httpResponse:
             statusCode: 200
-            body: "mkdir /var/log/nginx-controller && touch /var/log/nginx-controller/agent.log"
+            body: mkdir /var/log/nginx-controller && touch /var/log/nginx-controller/agent.log
 
         status_code: 201
         body_format: json

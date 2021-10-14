@@ -88,12 +88,12 @@ template: |
 
   ## Install & Upgrade
 
-  *   To install the Ansible NGINX Controller Agent role on a fresh environment, run `ansible-galaxy install nginxinc.nginx_controller_agent`.
-  *   To upgrade the Ansible NGINX Controller Agent role to the latest release, run `ansible-galaxy install -f nginxinc.nginx_controller_agent`.
-  *   To install or upgrade to this specific Ansible NGINX Controller Agent role release ($RESOLVED_VERSION), run `ansible-galaxy install -f nginxinc.nginx_controller_agent,v$RESOLVED_VERSION`.
+  * To install the Ansible NGINX Controller Agent role on a fresh environment, run `ansible-galaxy install nginxinc.nginx_controller_agent`.
+  * To upgrade the Ansible NGINX Controller Agent role to the latest release, run `ansible-galaxy install -f nginxinc.nginx_controller_agent`.
+  * To install or upgrade to this specific Ansible NGINX Controller Agent role release ($RESOLVED_VERSION), run `ansible-galaxy install -f nginxinc.nginx_controller_agent,v$RESOLVED_VERSION`.
 
   ## Resources
 
-  *   Functional configuration examples (check `converge.yml` under each `molecule` scenario) -- [github.com/nginxinc/ansible-role-nginx-controller-agent/tree/$RESOLVED_VERSION/molecule](https://github.com/nginxinc/ansible-role-nginx-controller-agent/tree/$RESOLVED_VERSION/molecule).
-  *   Ansible Galaxy repository -- [galaxy.ansible.com/nginxinc/nginx_controller_agent](https://galaxy.ansible.com/nginxinc/nginx_controller_agent).
-  *   NGINX: Better with Ansible demo -- [github.com/alessfg/nginx-ansible-demo](https://github.com/alessfg/nginx-ansible-demo).
+  * Functional configuration examples (check `converge.yml` under each `molecule` scenario) -- [github.com/nginxinc/ansible_role_nginx_controller_agent/tree/$RESOLVED_VERSION/molecule](https://github.com/nginxinc/ansible_role_nginx_controller_agent/tree/$RESOLVED_VERSION/molecule).
+  * Ansible Galaxy repository -- [galaxy.ansible.com/nginxinc/nginx_controller_agent](https://galaxy.ansible.com/nginxinc/nginx_controller_agent).
+  * NGINX: Better with Ansible demo -- [github.com/alessfg/nginx-ansible-demo](https://github.com/alessfg/nginx-ansible-demo).

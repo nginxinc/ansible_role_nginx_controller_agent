@@ -4,7 +4,7 @@
   tasks:
     - name: Call Agent Role
       include_role:
-        name: ansible-role-nginx-controller-agent
+        name: ansible_role_nginx_controller_agent
       vars:
         nginx_controller_fqdn: mock-server.molecule-test:1080
         nginx_controller_validate_certs: false

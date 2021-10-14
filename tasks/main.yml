@@ -6,42 +6,32 @@
     - nginx_controller_fqdn
     - nginx_controller_api_key
 
-- name: Copy files/nginx-plus-api.conf to /etc/nginx/conf.d/ necessary for process monitoring
+- name: Copy NGINX Plus API config to target host
   copy:
     src: "files/nginx-plus-api.conf"
     dest: "/etc/nginx/conf.d/nginx-plus-api.conf"
-    mode: preserve
-    force: true
+    mode: 0644
 
-- name: Download the installer script from NGINX Controller
+- name: Download the NGINX Controller agent installation script from NGINX Controller
   get_url:
     url: "https://{{ nginx_controller_fqdn }}/install/controller-agent"
     dest: "{{ ansible_env.HOME }}/install.sh"
     validate_certs: "{{ nginx_controller_validate_certs | default(false) }}"
     force: true
-  changed_when: false
-  register: nginx_controller_return
 
-- name: Run the NGINX Controller agent installer
+- name: Run the NGINX Controller agent installation script
   shell: |
     API_KEY='{{ nginx_controller_api_key }}' \
-    {{ (nginx_controller_hostname | length > 0) | ternary('CONTROLLER_HOSTNAME=' + nginx_controller_hostname,'') }} \
-    {{ ((nginx_controller_hostname | length > 0) or (nginx_controller_instance_name | length > 0)) | ternary('STORE_UUID=True','') }} \
+    {{ (nginx_controller_hostname | length > 0) | ternary('CONTROLLER_HOSTNAME=' + nginx_controller_hostname, '') }} \
+    {{ ((nginx_controller_hostname | length > 0) or (nginx_controller_instance_name | length > 0)) | ternary('STORE_UUID=True', '') }} \
     sh ./install.sh -y \
-    {{ (nginx_controller_location | length > 0) | ternary('-l ' + nginx_controller_location,'') }} \
-    {{ (nginx_controller_instance_name | length > 0) | ternary('-i ' + nginx_controller_instance_name,'') }}
+    {{ (nginx_controller_location | length > 0) | ternary('-l ' + nginx_controller_location, '') }} \
+    {{ (nginx_controller_instance_name | length > 0) | ternary('-i ' + nginx_controller_instance_name, '') }}
   args:
     chdir: "{{ ansible_env.HOME }}"
     creates: /var/log/nginx-controller/agent.log
-  changed_when: false
   register: nginx_controller_agent_install
 
-- name: Output agent install results
+- name: Display NGINX Controller agent installation results
   debug:
     var: nginx_controller_agent_install.stdout_lines
-
-- name: Remove the install script
-  file:
-    path: "{{ ansible_env.HOME }}/install.sh"
-    state: absent
-  changed_when: false
