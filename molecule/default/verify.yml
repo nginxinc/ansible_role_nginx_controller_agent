@@ -7,6 +7,9 @@
       uri:
         url: https://{{ inventory_hostname }}:1080/mockserver/verify
         method: PUT
+        headers:
+          Content-Type: application/json
+        body_format: json
         body:
           httpRequest:
             path: /install/controller-agent
@@ -14,9 +17,6 @@
             atLeast: 2
             atMost: 2
         status_code: 202
-        body_format: json
-        headers:
-          Content-Type: application/json
         validate_certs: false
 
 - name: Verify file

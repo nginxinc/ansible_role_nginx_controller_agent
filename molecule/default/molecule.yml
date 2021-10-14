@@ -10,7 +10,7 @@ platforms:
     groups:
       - mock_server
     image: alpine:3.12
-    dockerfile: ../MockServerDockerfile
+    dockerfile: MockServerDockerfile
     networks:
       - name: molecule-test
     ports:
@@ -19,7 +19,7 @@ platforms:
     groups:
       - instances
     image: ubuntu:bionic
-    dockerfile: ../Dockerfile.j2
+    dockerfile: Dockerfile.j2
     networks:
       - name: molecule-test
 provisioner:
@@ -28,4 +28,3 @@ provisioner:
     prepare: prepare.yml
     converge: converge.yml
     verify: verify.yml
-  log: false

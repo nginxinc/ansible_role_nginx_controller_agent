@@ -26,15 +26,18 @@
       uri:
         url: https://{{ inventory_hostname }}:1080/mockserver/reset
         method: PUT
-        status_code: 200
         headers:
           Content-Type: application/json
+        status_code: 200
         validate_certs: false
 
     - name: Create NGINX Controller agent script expectation
       uri:
         url: https://{{ inventory_hostname }}:1080/mockserver/expectation
         method: PUT
+        headers:
+          Content-Type: application/json
+        body_format: json
         body:
           httpRequest:
             method: GET
@@ -43,7 +46,4 @@
             statusCode: 200
             body: mkdir /var/log/nginx-controller && touch /var/log/nginx-controller/agent.log
         status_code: 201
-        body_format: json
-        headers:
-          Content-Type: application/json
         validate_certs: false
