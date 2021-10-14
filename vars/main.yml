@@ -1,5 +1,5 @@
 ---
-# These need to be defined to allow the ternary test to evaluate.
+# Empty strings are defined to allow ternary evaluation when these optional parameters are not provided.
 nginx_controller_hostname: ""
 nginx_controller_location: ""
 nginx_controller_instance_name: ""

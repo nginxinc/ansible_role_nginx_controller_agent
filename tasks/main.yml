@@ -14,7 +14,7 @@
 
 - name: Download the NGINX Controller agent installation script from NGINX Controller
   get_url:
-    url: "https://{{ nginx_controller_fqdn }}/install/controller-agent"
+    url: https://{{ nginx_controller_fqdn }}/install/controller-agent
     dest: "{{ ansible_env.HOME }}/install.sh"
     validate_certs: "{{ nginx_controller_validate_certs | default(false) }}"
     force: true
