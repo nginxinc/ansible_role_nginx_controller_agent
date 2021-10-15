@@ -1,41 +1,41 @@
 ---
-- name: Verify Mock
+- name: Verify mock server
   hosts: mock_server
   connection: local
   tasks:
-    - name: Check that the agent script request was sent to the mock controller exactly twice per docker instance (includes the idempotence test)
+    - name: Check that the NGINX Controller agent script request was sent to the mock controller exactly twice per Docker instance (includes the idempotence test)
       uri:
-        url: "https://{{ inventory_hostname }}:1080/mockserver/verify"
+        url: https://{{ inventory_hostname }}:1080/mockserver/verify
         method: PUT
+        headers:
+          Content-Type: application/json
+        body_format: json
         body:
           httpRequest:
-            path: "/install/controller-agent"
+            path: /install/controller-agent
           times:
             atLeast: 2
             atMost: 2
         status_code: 202
-        body_format: json
-        headers:
-          Content-Type: application/json
         validate_certs: false
 
-- name: Verify File
+- name: Verify file
   hosts: instances
   tasks:
-    - name: Store the statistics of /etc/nginx/conf.d/nginx-plus-api.conf in the 'conf_file' variable
+    - name: Store the statistics of '/etc/nginx/conf.d/nginx-plus-api.conf' in the 'conf_file' variable
       stat:
         path: /etc/nginx/conf.d/nginx-plus-api.conf
       register: conf_file
 
-    - name: Ensure /etc/nginx/conf.d/nginx-plus-api.conf exists
+    - name: Check /etc/nginx/conf.d/nginx-plus-api.conf exists
       assert:
-        that: conf_file.stat.exists == true
+        that: conf_file.stat.exists
 
-    - name: Store the statistics of /var/log/nginx-controller/agent.log in the 'agent_log_file' variable
+    - name: Store the statistics of '/var/log/nginx-controller/agent.log' in the 'agent_log_file' variable
       stat:
         path: /var/log/nginx-controller/agent.log
       register: agent_log_file
 
-    - name: Ensure /var/log/nginx-controller/agent.log exists
+    - name: Check '/var/log/nginx-controller/agent.log' exists
       assert:
-        that: agent_log_file.stat.exists == true
+        that: agent_log_file.stat.exists

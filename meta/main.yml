@@ -1,14 +1,14 @@
 ---
 galaxy_info:
-  author: Brian Ehlert
+  author: Daniel Edgar
   description: A role to install, configure, and upgrade the NGINX Controller agent alongside an NGINX Plus instance in a machine.
-  company: F5 Networks, Inc.
   role_name: nginx_controller_agent
-  namespace: nginxinc
+  namespace: nginxinc  # Ansible Lint requirement
+  company: F5 Networks, Inc.
 
   license: Apache License, Version 2.0
 
-  min_ansible_version: 2.7
+  min_ansible_version: 2.11
 
   platforms:
     - name: Amazon
@@ -19,22 +19,24 @@ galaxy_info:
         - any
     - name: Debian
       versions:
-        - jessie
         - stretch
+        - buster
     - name: EL
       versions:
-        - 6
         - 7
     - name: Ubuntu
       versions:
-        - xenial
         - bionic
         - focal
 
   galaxy_tags:
     - nginx
-    - plus
     - controller
+    - plus
     - agent
-
-dependencies: []
+    - cloud
+    - infrastructure
+    - linux
+    - monitoring
+    - security
+    - tools

@@ -14,7 +14,7 @@ The following is a set of guidelines for contributing to the NGINX Controller Ag
 *   [Git Guidelines](#git-guidelines)
 *   [Ansible Guidelines](#ansible-guidelines)
 
-[Code of Conduct](https://github.com/nginxinc/ansible-role-nginx-controller-agent/blob/main/CODE_OF_CONDUCT.md)
+[Code of Conduct](https://github.com/nginxinc/ansible_role_nginx_controller_agent/blob/main/CODE_OF_CONDUCT.md)
 
 ## Ask a Question
 
@@ -22,18 +22,18 @@ Don't know how something works? Curious if the role can achieve your desired fun
 
 ## Getting Started
 
-Follow our [Installation Guide](https://github.com/nginxinc/ansible-role-nginx-controller-agent/blob/main/README.md#Installation) to install Ansible and Molecule and get ready to use the NGINX Controller Agent Ansible role.
+Follow our [Installation Guide](https://github.com/nginxinc/ansible_role_nginx_controller_agent/blob/main/README.md#Installation) to install Ansible and Molecule and get ready to use the NGINX Controller Agent Ansible role.
 
 ### Project Structure
 
 *   The NGINX Controller Agent Ansible role is written in `yaml` and supports NGINX Controller.
 *   The project follows the standard [Ansible role directory structure](https://docs.ansible.com/ansible/latest/user_guide/playbooks_reuse_roles.html)
-    *   The main code is found in [`tasks/`](https://github.com/nginxinc/ansible-role-nginx-controller-agent/blob/main/tasks/).
-    *   Variables can be found in [`defaults/main/`](https://github.com/nginxinc/ansible-role-nginx-controller-agent/blob/main/defaults/main/).
-    *   "Constant" variables can be found in [`vars/main.yml`](https://github.com/nginxinc/ansible-role-nginx-controller-agent/blob/main/vars/main.yml).
-    *   Configuration templates for NGINX can be found in [`templates/`](https://github.com/nginxinc/ansible-role-nginx-controller-agent/blob/main/templates/).
-    *   [Molecule](https://molecule.readthedocs.io/) tests can be found in [`molecule/`](https://github.com/nginxinc/ansible-role-nginx-controller-agent/blob/main/molecule/).
-    *   CI/CD is done via GitHub actions using the workflow files found in [`.github/workflows/`](https://github.com/nginxinc/ansible-role-nginx-controller-agent/blob/main/.github/workflows/).
+    *   The main code is found in [`tasks/`](https://github.com/nginxinc/ansible_role_nginx_controller_agent/blob/main/tasks/).
+    *   Variables can be found in [`defaults/main/`](https://github.com/nginxinc/ansible_role_nginx_controller_agent/blob/main/defaults/main/).
+    *   "Constant" variables can be found in [`vars/main.yml`](https://github.com/nginxinc/ansible_role_nginx_controller_agent/blob/main/vars/main.yml).
+    *   Configuration templates for NGINX can be found in [`templates/`](https://github.com/nginxinc/ansible_role_nginx_controller_agent/blob/main/templates/).
+    *   [Molecule](https://molecule.readthedocs.io/) tests can be found in [`molecule/`](https://github.com/nginxinc/ansible_role_nginx_controller_agent/blob/main/molecule/).
+    *   CI/CD is done via GitHub actions using the workflow files found in [`.github/workflows/`](https://github.com/nginxinc/ansible_role_nginx_controller_agent/blob/main/.github/workflows/).
 
 ## Contributing
 
@@ -48,7 +48,7 @@ To suggest an enhancement, please create an issue on GitHub with the label `enha
 ### Open a Pull Request
 
 *   Fork the repo, create a branch, implement your changes, add any relevant Molecule tests, submit a PR when your changes are **tested** (using Molecule) and ready for review.
-*   Fill in [our pull request template](https://github.com/nginxinc/ansible-role-nginx-controller-agent/blob/main/.github/pull_request_template.md).
+*   Fill in [our pull request template](https://github.com/nginxinc/ansible_role_nginx_controller_agent/blob/main/.github/pull_request_template.md).
 
 Note: if you’d like to implement a new feature, please consider creating a feature request issue first to start a discussion about the feature.
 

@@ -1,15 +1,15 @@
 ---
-- name: Prepare Test Node
+- name: Prepare test node
   hosts: instances
   gather_facts: false
   tasks:
     - name: Create the conf.d directory
-      ansible.builtin.file:
+      file:
         path: /etc/nginx/conf.d/
         state: directory
-        mode: "0644"
+        mode: 0644
 
-- name: Prepare Mock Server
+- name: Prepare mock server
   hosts: mock_server
   become: true
   tasks:
@@ -17,34 +17,33 @@
       raw: "nohup java -Dfile.encoding=UTF-8 -cp /mockserver-netty-jar-with-dependencies.jar:/libs/* -Dmockserver.propertyFile=/mockserver.properties org.mockserver.cli.Main -serverPort 1080 </dev/null >/dev/null 2>&1 & sleep 1"
       changed_when: false
 
-- name: Set Expectations
+- name: Set expectations
   hosts: mock_server
   connection: local
   gather_facts: false
   tasks:
     - name: Reset mock server expectations
       uri:
-        url: "https://{{ inventory_hostname }}:1080/mockserver/reset"
+        url: https://{{ inventory_hostname }}:1080/mockserver/reset
         method: PUT
-        status_code: 200
         headers:
           Content-Type: application/json
+        status_code: 200
         validate_certs: false
 
-    - name: Create agent script expectation
+    - name: Create NGINX Controller agent script expectation
       uri:
-        url: "https://{{ inventory_hostname }}:1080/mockserver/expectation"
+        url: https://{{ inventory_hostname }}:1080/mockserver/expectation
         method: PUT
-        body:
-          httpRequest:
-            method: "GET"
-            path: "/install/controller-agent"
-          httpResponse:
-            statusCode: 200
-            body: "mkdir /var/log/nginx-controller && touch /var/log/nginx-controller/agent.log"
-
-        status_code: 201
-        body_format: json
         headers:
           Content-Type: application/json
+        body_format: json
+        body:
+          httpRequest:
+            method: GET
+            path: /install/controller-agent
+          httpResponse:
+            statusCode: 200
+            body: mkdir /var/log/nginx-controller && touch /var/log/nginx-controller/agent.log
+        status_code: 201
         validate_certs: false
