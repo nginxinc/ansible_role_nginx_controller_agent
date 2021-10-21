@@ -6,8 +6,8 @@ This role installs, configures, and upgrades the NGINX Controller agent alongsid
 
 ### NGINX Controller and NGINX Plus
 
-* [NGINX Plus](https://www.nginx.com/products/nginx/)
-* [NGINX Controller](https://www.nginx.com/products/nginx-controller/)
+* A running [NGINX Plus](https://www.nginx.com/products/nginx/) instance.
+* A running [NGINX Controller](https://www.nginx.com/products/nginx-controller/) instance.
 
 ### Ansible
 

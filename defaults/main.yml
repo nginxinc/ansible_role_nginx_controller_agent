@@ -3,6 +3,7 @@
 # nginx_controller_fqdn: ""
 # Required -- The API key used to authenticate to NGINX Controller.
 # nginx_controller_api_key: ""
+
 # The location in NGINX Controller this instance will be automatically added to.
 # nginx_controller_location: "unspecified"
 # The unique name of the NGINX instance as reflected in NGINX Controller -- currently redundant with `nginx_controller_instance_name`.

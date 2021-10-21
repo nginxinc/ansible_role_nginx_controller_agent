@@ -1,6 +1,12 @@
 # Changelog
 
-## 0.1.0 (Unreleased)
+## 0.1.1 (Unreleased)
+
+ENHANCEMENTS:
+
+Update the Ansible `community.docker` collection to `2.0.0`.
+
+## 0.1.0 (October 14, 2021)
 
 ENHANCEMENTS:
 
