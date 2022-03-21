@@ -9,3 +9,6 @@ updates:
     directory: "/.github/workflows/requirements"
     schedule:
       interval: "weekly"
+    ignore:
+      - dependency-name: "ansible-lint"
+        update-types: ["version-update:semver-major"]
