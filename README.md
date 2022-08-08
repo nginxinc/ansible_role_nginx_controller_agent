@@ -1,5 +1,7 @@
 # Ansible NGINX Controller Agent Role
 
+# This repository has been archived. There will likely be no further development on the project and security vulnerabilities may be unaddressed.
+
 This role installs, configures, and upgrades the NGINX Controller agent alongside an NGINX Plus instance in a machine.
 
 ## Requirements
